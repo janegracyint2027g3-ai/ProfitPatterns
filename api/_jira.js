@@ -258,10 +258,146 @@ export async function createJiraLeadTask(p) {
   );
 
   const subTasks = [
-    { summary: `📋 Contact Info — ${leadName}`, desc: contactDesc },
-    { summary: `📝 Requirement Details — ${leadType}`, desc: reqDesc },
-    { summary: `✅ Follow-up Actions — ${leadName}`, desc: followUpDesc },
-  ];
+  {
+    summary: `01 — Contact Information — ${leadName}`,
+    desc: textDoc(
+      `CONTACT INFORMATION\n\n` +
+      `Full Name: ${leadName}\n` +
+      `Email: ${leadEmail || "—"}\n` +
+      `Phone: ${p.phone || "—"}`
+    ),
+  },
+
+  {
+    summary: `02 — Company & Business Profile — ${leadName}`,
+    desc: textDoc(
+      `COMPANY & BUSINESS PROFILE\n\n` +
+      `Company: ${p.company || "—"}\n` +
+      `Job Title: ${p.jobTitle || "—"}\n` +
+      `Industry: ${p.industry || "—"}\n` +
+      `Company Size: ${p.companySize || "—"}\n` +
+      `Website: ${p.website || "—"}`
+    ),
+  },
+
+  {
+    summary: `03 — Requirement — ${leadName}`,
+    desc: textDoc(
+      `REQUIREMENT\n\n` +
+      `Requirement: ${
+        p.requirement ||
+        p.primaryChallenge ||
+        p.primaryGoal ||
+        "—"
+      }`
+    ),
+  },
+
+  {
+    summary: `04 — Business Challenge — ${leadName}`,
+    desc: textDoc(
+      `BUSINESS CHALLENGE\n\n` +
+      `Challenge:\n${
+        p.challenge ||
+        p.currentChallenge ||
+        p.message ||
+        p.processSummary ||
+        "—"
+      }`
+    ),
+  },
+
+  {
+    summary: `05 — Desired Outcome — ${leadName}`,
+    desc: textDoc(
+      `DESIRED OUTCOME\n\n` +
+      `${p.desiredOutcome || p.desired_outcome || "Not provided"}`
+    ),
+  },
+
+  {
+    summary: `06 — Current Tools & Technology — ${leadName}`,
+    desc: textDoc(
+      `CURRENT TOOLS & TECHNOLOGY\n\n` +
+      `Current Tools:\n${p.currentTools || "Not provided"}`
+    ),
+  },
+
+  {
+    summary: `07 — AI Usage & Maturity — ${leadName}`,
+    desc: textDoc(
+      `AI USAGE & MATURITY\n\n` +
+      `Existing AI Usage: ${p.existingAIUsage || "Not provided"}`
+    ),
+  },
+
+  {
+    summary: `08 — Project Scope — ${leadName}`,
+    desc: textDoc(
+      `PROJECT SCOPE\n\n` +
+      `Project Scope: ${p.projectScope || "Not provided"}`
+    ),
+  },
+
+  {
+    summary: `09 — Budget & Commercial Qualification — ${leadName}`,
+    desc: textDoc(
+      `BUDGET & COMMERCIAL QUALIFICATION\n\n` +
+      `Budget Range: ${p.budgetRange || "Not provided"}\n` +
+      `Preferred Contact Time: ${p.preferredContactTime || "Not provided"}`
+    ),
+  },
+
+  {
+    summary: `10 — Source & Website Context — ${leadName}`,
+    desc: textDoc(
+      `SOURCE & WEBSITE CONTEXT\n\n` +
+      `Lead Type: ${leadType}\n` +
+      `Source Page: ${p.pageUrl || p.page_url || "—"}\n` +
+      `Lead Source: ${p.lead_source || p.source || "Website"}`
+    ),
+  },
+
+  {
+    summary: `11 — Lead Qualification — ${leadName}`,
+    desc: textDoc(
+      `LEAD QUALIFICATION\n\n` +
+      `Status: New\n` +
+      `Lead Type: ${leadType}\n` +
+      `Requirement: ${
+        p.requirement ||
+        p.primaryChallenge ||
+        p.primaryGoal ||
+        "—"
+      }\n` +
+      `Company: ${p.company || "—"}`
+    ),
+  },
+
+  {
+    summary: `12 — Follow-up Actions — ${leadName}`,
+    desc: textDoc(
+      `FOLLOW-UP ACTIONS\n\n` +
+      `1. Review lead information\n` +
+      `2. Contact lead within 24 hours\n` +
+      `3. Confirm requirements\n` +
+      `4. Schedule discovery / consultation`
+    ),
+  },
+
+  {
+    summary: `13 — Opportunity & Conversion — ${leadName}`,
+    desc: textDoc(
+      `OPPORTUNITY & CONVERSION\n\n` +
+      `Evaluate:\n` +
+      `• Business opportunity\n` +
+      `• Potential engagement\n` +
+      `• Commercial fit\n` +
+      `• Next-step proposal\n\n` +
+      `Conversion: Pending`
+    ),
+  },
+];
 
   if (leadType === "Process Audit" || p.filesCount || p.fileName) {
     const docDesc = textDoc(
