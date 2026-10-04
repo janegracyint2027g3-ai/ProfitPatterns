@@ -72,12 +72,16 @@ export function LongForm({ source = "long_form" }: { source?: string }) {
     if (!parsed.success) {
       const next: Errors = {};
       for (const issue of parsed.error.issues) {
-        const key = issue.path[0] as Field;
-        if (key && !next[key]) next[key] = issue.message;
+        const key = issue.path[0] as string;
+        if (key === "companyWebsiteHp") {
+          next.form = "Anti-spam triggered. Please try submitting again.";
+        } else if (key && !next[key as Field]) {
+          next[key as Field] = issue.message;
+        }
       }
       setErrors(next);
       const firstKey = parsed.error.issues[0]?.path[0];
-      if (typeof firstKey === "string") {
+      if (typeof firstKey === "string" && firstKey !== "companyWebsiteHp") {
         document.getElementById(`lf-${firstKey}`)?.focus();
       }
       return;
@@ -105,6 +109,11 @@ export function LongForm({ source = "long_form" }: { source?: string }) {
     try {
       const serverResult = await submitConsultationLead({ data: parsed.data });
       if (!serverResult?.ok) {
+        throw new Error("Server action returned not ok");
+      }
+    } catch (e) {
+      console.warn("Direct lead fallback notice:", e);
+      try {
         await fetch("/api/lead", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -126,9 +135,9 @@ export function LongForm({ source = "long_form" }: { source?: string }) {
             pageUrl: page,
           }),
         });
+      } catch (fallbackError) {
+        console.error("Fallback submission failed", fallbackError);
       }
-    } catch (e) {
-      console.warn("Direct lead fallback notice:", e);
     }
 
     setStatus("success");

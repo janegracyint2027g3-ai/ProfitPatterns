@@ -143,13 +143,14 @@ export function Honeypot({
   onChange: (v: string) => void;
 }) {
   return (
-    <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
-      <label htmlFor="companyWebsiteHp">Company website</label>
+    <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden opacity-0" style={{ display: "none" }}>
+      <label htmlFor="bot_field_xyz">Do not fill this out</label>
       <input
-        id="companyWebsiteHp"
-        name="companyWebsiteHp"
+        id="bot_field_xyz"
+        name="bot_field_xyz"
+        type="text"
         tabIndex={-1}
-        autoComplete="off"
+        autoComplete="new-password"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />

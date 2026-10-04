@@ -152,14 +152,12 @@ export const consultationLeadSchema = honeypotSchema.extend({
   currentChallenge: trimmed(2000).min(5, {
     message: "Please describe the challenge in a little more detail (5+ characters).",
   }),
-  desiredOutcome: trimmed(2000).min(5, {
-    message: "Please describe the outcome you want (5+ characters).",
-  }),
+  desiredOutcome: trimmed(2000).optional().or(z.literal("")),
   currentTools: trimmed(500).optional().or(z.literal("")),
-  existingAIUsage: trimmed(80).min(1, { message: "Please select an option." }),
+  existingAIUsage: trimmed(80).optional().or(z.literal("")),
   projectScope: trimmed(80).min(1, { message: "Please select a scope." }),
-  budgetRange: trimmed(80).min(1, { message: "Please select a range." }),
-  preferredContactTime: trimmed(40).min(1, { message: "Please select a preferred time." }),
+  budgetRange: trimmed(80).optional().or(z.literal("")),
+  preferredContactTime: trimmed(40).optional().or(z.literal("")),
   page: trimmed(200).optional(),
   source: trimmed(120).optional(),
   intelligenceMeta: intelligenceMetaSchema,
